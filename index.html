@@ -134,71 +134,54 @@
       }
     ];
 
-   let booksToShow = 4; // Number of books to show initially
-let currentSearch = ""; // Keeps track of the search input
+    const bookGrid = document.getElementById("bookGrid");
+    const searchInput = document.getElementById("searchInput");
+    const showMoreBtn = document.getElementById("showMoreBtn");
 
-const searchInput = document.getElementById("searchInput");
-const showMoreBtn = document.getElementById("showMoreBtn");
+    let booksToShow = 4;
+    let currentSearch = "";
 
-function renderBooks(filter = "") {
-  bookGrid.innerHTML = "";
-  currentSearch = filter.toLowerCase();
+    function renderBooks(filter = "") {
+      bookGrid.innerHTML = "";
+      currentSearch = filter.toLowerCase();
 
-  const filtered = books.filter(book => {
-    const inTitle = book.title.toLowerCase().includes(currentSearch);
-    const inTags = book.tags.some(tag => tag.toLowerCase().includes(currentSearch));
-    return inTitle || inTags;
-  });
+      const filtered = books.filter(book => {
+        const inTitle = book.title.toLowerCase().includes(currentSearch);
+        const inTags = book.tags.some(tag => tag.toLowerCase().includes(currentSearch));
+        return inTitle || inTags;
+      });
 
-  const visibleBooks = filtered.slice(0, booksToShow);
+      const visibleBooks = filtered.slice(0, booksToShow);
 
-  visibleBooks.forEach(book => {
-    const card = document.createElement("div");
-    card.className = "book-card";
-    card.innerHTML = `
-      <img src="${book.cover}" alt="${book.title}">
-      <div class="book-title">${book.title}</div>
-      <div class="tag-list">
-        ${book.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
-      </div>
-      <a class="download-btn" href="${book.file}" download>Download</a>
-    `;
-    bookGrid.appendChild(card);
-  });
+      visibleBooks.forEach(book => {
+        const card = document.createElement("div");
+        card.className = "book-card";
+        card.innerHTML = `
+          <img src="${book.cover}" alt="${book.title}">
+          <div class="book-title">${book.title}</div>
+          <div class="tag-list">
+            ${book.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+          </div>
+          <a class="download-btn" href="${book.file}" download>Download</a>
+        `;
+        bookGrid.appendChild(card);
+      });
 
-  showMoreBtn.style.display = filtered.length > booksToShow ? "inline-block" : "none";
-}
+      showMoreBtn.style.display = filtered.length > booksToShow ? "inline-block" : "none";
+    }
 
-searchInput.addEventListener("input", (e) => {
-  booksToShow = 4; // Reset limit on new search
-  renderBooks(e.target.value);
-});
+    searchInput.addEventListener("input", (e) => {
+      booksToShow = 4;
+      renderBooks(e.target.value);
+    });
 
-showMoreBtn.addEventListener("click", () => {
-  booksToShow += 4;
-  renderBooks(currentSearch);
-});
+    showMoreBtn.addEventListener("click", () => {
+      booksToShow += 4;
+      renderBooks(currentSearch);
+    });
 
-// Initial render
-renderBooks();
-
-    
+    renderBooks();
   </script>
 
-  <div style="text-align:center; margin-top: 1rem;">
-  <button id="showMoreBtn" style="
-    padding: 0.6rem 1.2rem;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    cursor: pointer;
-    display: none;
-  ">
-    Show More
-  </button>
-</div>
-  
 </body>
 </html>
