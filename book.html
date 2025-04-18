@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Library</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 2rem;
+      }
+
+      h1 {
+        text-align: center;
+        color: #333;
+      }
+
+      .search-container {
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      #searchInput {
+        width: 80%;
+        max-width: 400px;
+        padding: 0.5rem;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      .book-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1.5rem;
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+
+      .book-card {
+        background: #fff;
+        padding: 1rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: all 0.3s ease;
+      }
+
+      .book-card img {
+        width: 100%;
+        height: auto;
+        border-radius: 4px;
+      }
+
+      .book-title {
+        margin: 1rem 0 0.5rem;
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: #444;
+      }
+
+      .tag-list {
+        margin: 0.5rem 0;
+      }
+
+      .tag {
+        display: inline-block;
+        background-color: #e0e0e0;
+        color: #333;
+        padding: 2px 8px;
+        font-size: 0.75rem;
+        border-radius: 12px;
+        margin: 2px;
+      }
+
+      .download-btn {
+        display: inline-block;
+        margin-top: 0.5rem;
+        padding: 0.5rem 1rem;
+        background-color: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+      }
+
+      .download-btn:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>My Book Library</h1>
+
+    <div class="search-container">
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Search by title or tag..."
+      />
+    </div>
+
+    <div class="book-grid" id="bookGrid">
+      <!-- Book cards will be inserted here via JavaScript -->
+    </div>
+
+    <script>
+      const books = [
+        {
+          title: 'The Great Gatsby',
+          cover: 'https://via.placeholder.com/200x300?text=Gatsby',
+          file: 'books/gatsby.pdf',
+          tags: ['classic', 'fiction', 'romance'],
+        },
+        {
+          title: 'Pride and Prejudice',
+          cover: 'https://via.placeholder.com/200x300?text=Pride',
+          file: 'books/pride.pdf',
+          tags: ['classic', 'romance', 'drama'],
+        },
+        {
+          title: 'Moby-Dick',
+          cover: 'https://via.placeholder.com/200x300?text=Moby',
+          file: 'books/moby.pdf',
+          tags: ['adventure', 'classic', 'sea'],
+        },
+        {
+          title: '1984',
+          cover: 'https://via.placeholder.com/200x300?text=1984',
+          file: 'books/1984.pdf',
+          tags: ['dystopian', 'fiction', 'politics'],
+        },
+      ]
+
+      const bookGrid = document.getElementById('bookGrid')
+
+      function renderBooks(filter = '') {
+        bookGrid.innerHTML = ''
+
+        books
+          .filter((book) => {
+            const search = filter.toLowerCase()
+            const inTitle = book.title.toLowerCase().includes(search)
+            const inTags = book.tags.some((tag) =>
+              tag.toLowerCase().includes(search)
+            )
+            return inTitle || inTags
+          })
+          .forEach((book) => {
+            const card = document.createElement('div')
+            card.className = 'book-card'
+            card.innerHTML = `
+            <img src="${book.cover}" alt="${book.title}">
+            <div class="book-title">${book.title}</div>
+            <div class="tag-list">
+              ${book.tags
+                .map((tag) => `<span class="tag">${tag}</span>`)
+                .join('')}
+            </div>
+            <a class="download-btn" href="${book.file}" download>Download</a>
+          `
+            bookGrid.appendChild(card)
+          })
+      }
+
+      document.getElementById('searchInput').addEventListener('input', (e) => {
+        renderBooks(e.target.value)
+      })
+
+      // Initial render
+      renderBooks()
+    </script>
+  </body>
+</html>
