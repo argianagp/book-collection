@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Books Collection</title>
+  <title>Book Library</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -33,11 +33,12 @@
 
     .book-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, 220px); /* 👈 Fixed-width cards */
+      grid-template-columns: repeat(auto-fill, 220px);
       justify-content: center;
       gap: 1.5rem;
       max-width: 1000px;
       margin: 0 auto;
+      min-height: 400px;
     }
 
     .book-card {
@@ -46,8 +47,7 @@
       border-radius: 8px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       text-align: center;
-      transition: all 0.3s ease;
-      width: 220px;       
+      width: 220px;
       justify-self: center;
     }
 
@@ -96,14 +96,27 @@
 </head>
 <body>
 
-  <h1>Drawing References</h1>
+  <h1>My Book Library</h1>
 
   <div class="search-container">
     <input type="text" id="searchInput" placeholder="Search by title or tag...">
   </div>
 
-  <div class="book-grid" id="bookGrid">
-    <!-- Book cards will be inserted here via JavaScript -->
+  <div class="book-grid" id="bookGrid"></div>
+
+  <div style="text-align:center; margin-top: 1rem;">
+    <button id="showMoreBtn" style="
+      padding: 0.6rem 1.2rem;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      cursor: pointer;
+      display: none;
+    ">
+      Show More
+    </button>
   </div>
 
   <script>
